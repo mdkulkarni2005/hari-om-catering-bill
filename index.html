@@ -349,16 +349,90 @@
     .items-section { padding: 16px 8px; }
   }
 
-  /* PRINT */
+  /* PRINT — compress to max 2 pages while preserving on-screen look */
   @media print {
-    body { background:white !important; }
+    @page { size: A4; margin: 8mm 8mm; }
+    html, body { background:white !important; }
+    body { font-size: 10.5px; }
     #toolbar { display:none !important; }
     #page-wrap { margin:0!important; padding:0!important; max-width:100%!important; }
     #bill { border-radius:0!important; box-shadow:none!important; }
     .del-btn,.add-row-btn,.add-charge-btn { display:none!important; }
-    input,textarea,select { border:none!important; background:transparent!important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .bill-header,.reg-band,.bill-footer,.items-tbl thead tr,.sum-row.grand { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    @page { margin:0.5cm; }
+    input,textarea,select {
+      border:none!important; background:transparent!important;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+      color-adjust: exact;
+    }
+    .bill-header,.reg-band,.bill-footer,.items-tbl thead tr,.sum-row.grand,
+    .bill-strip,.payment-section,.summary-box,.terms-ta,.notes-area {
+      -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact;
+    }
+
+    /* Tighten paddings everywhere */
+    .bill-header { padding: 14px 22px 12px; gap: 14px; }
+    .om-symbol { font-size: 2rem; }
+    .logo-box { width: 60px; height: 60px; }
+    .company-name-marathi { font-size: 1.15rem; }
+    .company-name-eng { font-size: 0.78rem; }
+    .company-sub { font-size: 0.62rem; margin-top: 3px; }
+    .shri-line { font-size: 0.62rem; margin-bottom: 2px; }
+    .invoice-label { font-size: 1.55rem; }
+    .invoice-badge { font-size: 0.58rem; padding: 2px 8px; margin-top: 3px; }
+
+    .reg-item { padding: 5px 10px; }
+    .reg-label { font-size: 0.5rem; }
+    .reg-val { font-size: 0.68rem; }
+
+    .info-section { padding: 12px 22px; gap: 18px; }
+    .info-block h3,
+    .items-section > h3,
+    .extra-charges h3,
+    .payment-section h3,
+    .terms-section h3 { font-size: 0.58rem; margin-bottom: 6px; padding-bottom: 3px; }
+    .field-row { margin-bottom: 5px; }
+    .field-row label { font-size: 0.6rem; margin-bottom: 1px; }
+    .field-input { font-size: 0.74rem; padding: 2px 2px; }
+
+    .bill-strip { padding: 8px 22px; gap: 12px; }
+
+    .items-section { padding: 10px 22px; }
+    table.items-tbl thead th { padding: 5px 8px; font-size: 0.6rem; }
+    table.items-tbl tbody td { padding: 4px 8px; }
+    .item-inp { font-size: 0.74rem; }
+    .item-inp.desc-sub { font-size: 0.66rem; margin-top: 2px; }
+    .item-amt { font-size: 0.76rem; }
+
+    .totals-section { padding: 0 22px 12px; gap: 18px; }
+    .charge-row { margin-bottom: 4px; }
+    .charge-row input { font-size: 0.74rem; padding: 2px 2px; }
+    .sum-row { padding: 5px 12px; font-size: 0.76rem; }
+    .sum-row.grand { padding: 8px 12px; font-size: 0.95rem; }
+    .sum-row.grand .amt { font-size: 1.05rem; }
+    #amountWords { font-size: 0.64rem; margin-top: 5px; }
+
+    .payment-section { padding: 12px 22px; gap: 18px; }
+    .payment-grid { gap: 6px 18px; }
+    .qr-box { width: 100px; height: 100px; padding: 3px; }
+    .qr-label { font-size: 0.62rem; }
+
+    .terms-section { padding: 10px 22px; }
+    .terms-ta { min-height: 0; padding: 6px 10px; font-size: 0.7rem; line-height: 1.4; }
+    .notes-area { min-height: 0; padding: 6px 10px; font-size: 0.7rem; margin-top: 4px; }
+
+    .sig-section { padding: 10px 22px 14px; gap: 32px; }
+    .sig-line { height: 28px; }
+    .sig-name-inp { font-size: 0.7rem; }
+    .sig-caption { font-size: 0.6rem; }
+
+    .bill-footer { padding: 8px 22px; font-size: 0.6rem; }
+
+    /* Keep logical sections together; allow only between sections */
+    .bill-header, .reg-band, .info-section, .bill-strip,
+    .totals-section, .payment-section, .terms-section,
+    .sig-section, .bill-footer { page-break-inside: avoid; break-inside: avoid; }
+    table.items-tbl { page-break-inside: auto; }
+    table.items-tbl thead { display: table-header-group; }
+    table.items-tbl tr { page-break-inside: avoid; break-inside: avoid; }
   }
   @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
   .item-row { animation:fadeUp 0.2s ease; }
