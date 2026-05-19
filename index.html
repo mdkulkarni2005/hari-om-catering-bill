@@ -349,160 +349,290 @@
     .items-section { padding: 16px 8px; }
   }
 
-  /* PRINT — single A4 page, black & white, government-bill style.
-     Strips color (B&W printer), removes decoration, keeps required fields only. */
+  /* PRINT — single A4 page, B&W, Refrens-style minimal invoice.
+     Layout: "BILL" title + key:value metadata on left, logo top-right,
+             Bill From / Bill For boxes, items table, totals, signatures, footer. */
   @media print {
-    @page { size: A4; margin: 6mm 8mm; }
-    html, body { background:white !important; color:#000 !important; }
-    body { font-size: 14px; }
+    @page { size: A4; margin: 10mm 12mm; }
+    html, body { background:#fff !important; color:#000 !important; }
+    body { font-size: 12px; font-family: 'DM Sans', Arial, sans-serif; }
     #toolbar { display:none !important; }
     #page-wrap { margin:0!important; padding:0!important; max-width:100%!important; }
     #bill {
-      border-radius:0!important; box-shadow:none!important;
-      border: 1.5px solid #000 !important;
-      transform-origin: top left;
+      border-radius:0!important; box-shadow:none!important; border:none !important;
+      position: relative !important;
+      display: flex !important; flex-direction: column !important;
+      background: #fff !important;
+      overflow: visible !important;
     }
-    .del-btn,.add-row-btn,.add-charge-btn { display:none!important; }
 
-    /* CUT non-essentials */
+    /* HIDE non-essentials */
+    .del-btn,.add-row-btn,.add-charge-btn,
     .terms-section,
-    .bill-footer,
-    .om-symbol,
-    .invoice-badge,
-    .divider,
-    .shri-line,
-    #cmpSub,
-    .qr-zone { display:none !important; }
+    .om-symbol, .invoice-badge, .divider, .shri-line, #cmpSub,
+    .company-block,
+    .qr-zone,
     .bill-header::after { display:none !important; }
 
-    /* FORCE B&W everywhere */
-    * {
-      color: #000 !important;
+    /* Hide print-only-noise rows the JS marks */
+    .print-hide { display:none !important; }
+
+    /* B&W: strip gradients & coloured backgrounds */
+    .bill-header, .reg-band, .reg-item, .bill-strip, .info-section, .info-block,
+    .items-section, table.items-tbl, table.items-tbl thead tr, .sum-row, .sum-row.grand,
+    .summary-box, .payment-section, .sig-section, .bill-footer, .notes-area {
       background: #fff !important;
       background-image: none !important;
+      color: #000 !important;
       box-shadow: none !important;
-      text-shadow: none !important;
     }
     input, textarea, select {
       border: none !important; background: transparent !important;
-      color: #000 !important;
+      color: #000 !important; -webkit-text-fill-color: #000 !important;
+      font-family: inherit !important;
     }
-    input,textarea,select {
-      border:none!important; background:transparent!important;
-      -webkit-print-color-adjust:exact; print-color-adjust:exact;
-      color-adjust: exact;
-    }
-    .bill-header,.reg-band,.bill-footer,.items-tbl thead tr,.sum-row.grand,
-    .bill-strip,.payment-section,.summary-box,.terms-ta,.notes-area {
-      -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact;
-    }
+    .field-input, .reg-val, .item-inp, .sig-name-inp { color:#000 !important; }
 
-    /* Header */
+    /* REORDER: BILL header → Bill metadata (bill-strip + reg-band)
+                → Bill From/For → Items → Totals → Payment → Sig → Footer */
+    .bill-header   { order: 1; }
+    .bill-strip    { order: 2; }
+    .reg-band      { order: 3; }
+    .info-section  { order: 4; }
+    .items-section { order: 5; }
+    .totals-section{ order: 6; }
+    .payment-section { order: 7; }
+    .sig-section   { order: 8; }
+    .bill-footer   { order: 9; }
+
+    /* ── HEADER: big "BILL" left, logo absolute top-right ── */
     .bill-header {
-      padding: 10px 14px !important; gap: 12px !important;
-      border-bottom: 1.5px solid #000 !important;
-      grid-template-columns: auto 1fr auto !important;
+      padding: 0 0 6px 0 !important;
+      display: block !important;
+      border: none !important;
     }
-    .logo-box { width: 64px !important; height: 64px !important; border: 1px solid #000 !important; padding: 2px !important; }
-    .company-name-marathi { font-size: 1.35rem !important; font-weight: 700 !important; }
-    .company-name-eng { font-size: 0.95rem !important; font-weight: 600 !important; }
-    .bill-header input[id="cmpPhone"],
-    .bill-header input[id="cmpEmail"],
-    .bill-header input[id="cmpAddr"] {
-      font-size: 0.82rem !important; padding: 0 !important;
-      border-bottom: none !important;
+    .logo-box {
+      position: absolute !important;
+      top: 0 !important; right: 0 !important;
+      width: 110px !important; height: 110px !important;
+      border: 1px solid #000 !important; padding: 3px !important;
+      background: #fff !important;
     }
-    .bill-header > .company-block > div[style*="margin-top:8px"] { margin-top: 4px !important; gap: 10px !important; }
-    .invoice-label { font-size: 1.6rem !important; font-weight: 700 !important; letter-spacing: 0.06em !important; }
-
-    /* Reg band */
-    .reg-band {
-      grid-template-columns: repeat(4, 1fr) !important;
-      border-bottom: 1px solid #000 !important;
-    }
-    .reg-item {
-      padding: 4px 8px !important;
-      border-right: 1px solid #000 !important;
-      border-top: 1px solid #000 !important;
-    }
-    .reg-item:nth-child(4n) { border-right: none !important; }
-    .reg-item:nth-child(-n+4) { border-top: none !important; }
-    .reg-label { font-size: 0.7rem !important; font-weight: 700 !important; letter-spacing: 0.04em !important; }
-    .reg-val { font-size: 0.85rem !important; font-weight: 600 !important; }
-
-    /* Bill From / Bill To */
-    .info-section { padding: 8px 14px !important; gap: 14px !important; }
-    .info-block h3,
-    .items-section > h3,
-    .extra-charges h3,
-    .payment-section h3 {
-      font-size: 0.8rem !important; margin-bottom: 4px !important;
-      padding-bottom: 2px !important; border-bottom: 1px solid #000 !important;
-      font-weight: 700 !important; letter-spacing: 0.05em !important;
-    }
-    .field-row { margin-bottom: 3px !important; }
-    .field-row label { font-size: 0.72rem !important; margin-bottom: 0 !important; font-weight: 600 !important; }
-    .field-input { font-size: 0.9rem !important; padding: 1px 0 !important; border-bottom: 1px dotted #555 !important; }
-
-    .bill-strip {
-      padding: 6px 14px !important; gap: 10px !important;
-      border-top: 1px solid #000 !important; border-bottom: 1px solid #000 !important;
+    .header-right { text-align: left !important; }
+    .invoice-label {
+      font-family: 'Playfair Display', serif !important;
+      font-size: 2.4rem !important; font-weight: 700 !important;
+      color: #000 !important; letter-spacing: 0.02em !important;
+      line-height: 1 !important;
     }
 
-    /* Items table */
-    .items-section { padding: 6px 14px !important; }
-    .items-tbl-wrap { overflow: visible !important; }
-    table.items-tbl { min-width: 0 !important; border: 1px solid #000 !important; }
-    table.items-tbl thead tr { border-bottom: 1.5px solid #000 !important; }
-    table.items-tbl thead th {
-      padding: 4px 6px !important; font-size: 0.78rem !important;
-      font-weight: 700 !important; border-right: 1px solid #000 !important;
+    /* ── METADATA: bill-strip + reg-band as two stacked key:value columns ── */
+    .bill-strip, .reg-band {
+      display: block !important;
+      width: 60% !important;
+      padding: 0 !important;
+      border: none !important;
+      background: #fff !important;
     }
-    table.items-tbl thead th:last-child { border-right: none !important; }
-    table.items-tbl tbody tr { border-bottom: 1px solid #000 !important; }
-    table.items-tbl tbody td {
-      padding: 3px 6px !important; border-right: 1px solid #000 !important;
-    }
-    table.items-tbl tbody td:last-child { border-right: none !important; }
-    .item-inp { font-size: 0.9rem !important; }
-    .item-inp.desc-sub { font-size: 0.78rem !important; margin-top: 1px !important; }
-    .item-amt { font-size: 0.9rem !important; font-weight: 600 !important; }
+    .bill-strip { margin-top: 4px !important; }
+    .reg-band   { margin-top: 0 !important; padding-right: 130px !important; }
 
-    /* Totals + extras side-by-side */
-    .totals-section { padding: 6px 14px !important; gap: 14px !important; grid-template-columns: 1fr 280px !important; }
-    .charge-row { margin-bottom: 2px !important; }
-    .charge-row input { font-size: 0.85rem !important; padding: 1px 0 !important; border-bottom: 1px dotted #555 !important; }
-    .summary-box { border: 1.5px solid #000 !important; border-radius: 0 !important; }
-    .sum-row { padding: 3px 10px !important; font-size: 0.88rem !important; border-bottom: 1px solid #000 !important; }
-    .sum-row.grand {
-      padding: 6px 10px !important; font-size: 1.05rem !important;
-      font-weight: 700 !important; border-top: 1.5px solid #000 !important;
+    .bill-strip > .field-row,
+    .reg-band  > .reg-item {
+      display: grid !important;
+      grid-template-columns: 130px 1fr !important;
+      gap: 10px !important;
+      align-items: baseline !important;
+      padding: 1.5px 0 !important;
+      margin: 0 !important;
+      border: none !important;
     }
-    .sum-row.grand .amt { font-size: 1.15rem !important; font-weight: 700 !important; }
-    #amountWords { font-size: 0.78rem !important; margin-top: 4px !important; font-style: italic !important; }
-    .notes-area { min-height: 0 !important; padding: 4px 8px !important; font-size: 0.8rem !important; margin-top: 3px !important; border: 1px solid #000 !important; }
-
-    /* Payment */
-    .payment-section {
-      padding: 6px 14px !important; gap: 14px !important;
-      border-top: 1px solid #000 !important;
-      grid-template-columns: 1fr !important;
+    .bill-strip > .field-row > label,
+    .reg-band  > .reg-item  > .reg-label {
+      font-size: 0.82rem !important;
+      font-weight: 500 !important;
+      color: #555 !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
     }
-    .payment-grid { gap: 3px 16px !important; }
+    .bill-strip > .field-row > .field-input,
+    .reg-band  > .reg-item  > .reg-val {
+      font-size: 0.92rem !important;
+      font-weight: 700 !important;
+      color: #000 !important;
+      border: none !important;
+      padding: 0 !important;
+    }
 
-    /* Signature — keep BOTH client + owner */
-    .sig-section {
-      padding: 14px 14px 10px !important; gap: 30px !important;
+    /* Hide empty bank/reg fields and the empty bill-strip slots if any */
+    .reg-item.print-hide, .field-row.print-hide { display: none !important; }
+
+    /* ── BILL FROM / BILL TO: bordered boxes, no internal labels ── */
+    .info-section {
+      padding: 16px 0 4px 0 !important;
+      gap: 12px !important;
+      display: grid !important;
       grid-template-columns: 1fr 1fr !important;
+    }
+    .info-block {
+      border: 1px solid #000 !important;
+      padding: 10px 12px !important;
+      background: #fff !important;
+    }
+    .info-block h3 {
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      color: #000 !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+      border-bottom: none !important;
+      margin: 0 0 6px 0 !important;
+      padding: 0 !important;
+      font-family: 'Playfair Display', serif !important;
+    }
+    .info-block .field-row { margin: 0 0 2px 0 !important; display: block !important; }
+    .info-block .field-row > label {
+      display: none !important;
+    }
+    .info-block .field-input {
+      font-size: 0.88rem !important; font-weight: 500 !important; color: #000 !important;
+      border: none !important; padding: 0 !important;
+      background: transparent !important; width: 100% !important;
+    }
+    /* Make business name + client name stand out */
+    .info-block .field-row:first-of-type .field-input { font-weight: 700 !important; font-size: 0.95rem !important; }
+    /* Show inline 2-column wrappers as block in print */
+    .info-block > div[style*="grid-template-columns"] {
+      display: block !important;
+    }
+
+    /* ── ITEMS TABLE ── */
+    .items-section { padding: 10px 0 6px 0 !important; }
+    .items-section > h3 { display: none !important; }   /* heading not in reference */
+    .items-tbl-wrap { overflow: visible !important; }
+    table.items-tbl {
+      min-width: 0 !important;
+      width: 100% !important;
+      border-collapse: collapse !important;
+      border: none !important;
+    }
+    table.items-tbl thead tr { border-top: 1px solid #000 !important; border-bottom: 1px solid #000 !important; }
+    table.items-tbl thead th {
+      padding: 6px 8px !important; font-size: 0.85rem !important;
+      font-weight: 700 !important; color: #000 !important;
+      background: #fff !important; border: none !important;
+      text-transform: none !important; letter-spacing: 0 !important;
+      text-align: left !important;
+    }
+    table.items-tbl thead th:last-child { text-align: right !important; }
+    table.items-tbl thead th:nth-child(6),     /* Rate */
+    table.items-tbl thead th:nth-child(7) { text-align: right !important; }
+    /* Hide Unit column (5th col) — not in reference */
+    table.items-tbl thead th:nth-child(5),
+    table.items-tbl tbody td:nth-child(5) { display: none !important; }
+    /* Hide trailing delete-button column (8th col) */
+    table.items-tbl thead th:nth-child(8),
+    table.items-tbl tbody td:nth-child(8) { display: none !important; }
+
+    table.items-tbl tbody tr { border-bottom: 1px solid #ccc !important; }
+    table.items-tbl tbody td {
+      padding: 6px 8px !important;
+      border: none !important;
+      vertical-align: top !important;
+    }
+    .item-inp { font-size: 0.9rem !important; color: #000 !important; }
+    .item-inp.desc-sub { font-size: 0.85rem !important; margin-top: 3px !important; color: #333 !important; }
+    .item-amt { font-size: 0.9rem !important; font-weight: 600 !important; color: #000 !important; }
+
+    /* ── TOTALS: words-in-text left, summary box right ── */
+    .totals-section {
+      padding: 10px 0 6px 0 !important;
+      gap: 16px !important;
+      display: grid !important;
+      grid-template-columns: 1fr 280px !important;
+      align-items: start !important;
       border-top: 1px solid #000 !important;
     }
-    .sig-line { height: 36px !important; border-bottom: 1px solid #000 !important; }
-    .sig-name-inp { font-size: 0.82rem !important; font-weight: 600 !important; }
-    .sig-caption { font-size: 0.7rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; }
+    .extra-charges h3 { display: none !important; }     /* hide section heading */
+    .charge-row {
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      gap: 10px !important; margin-bottom: 1px !important;
+    }
+    .charge-row select { display: none !important; }
+    .charge-row input { font-size: 0.88rem !important; padding: 0 !important; border: none !important; }
+    .charge-row .ch-label { font-weight: 500 !important; }
+    .charge-row .ch-val   { text-align: right !important; font-weight: 600 !important; width: auto !important; }
 
-    /* Keep everything together — no page breaks */
-    #bill, .bill-header, .reg-band, .info-section, .bill-strip,
-    .items-section, .totals-section, .payment-section, .sig-section {
+    /* Hide Notes section in print unless filled (JS adds .print-hide if empty) */
+    .totals-section > div:first-child > div:last-child .extra-charges h3 { display: none !important; }
+    .notes-area { min-height: 0 !important; padding: 4px 0 !important; font-size: 0.85rem !important;
+      margin-top: 4px !important; border: none !important; }
+
+    .summary-box { border: none !important; border-radius: 0 !important; background: #fff !important; }
+    .sum-row {
+      padding: 4px 0 !important;
+      font-size: 0.9rem !important;
+      border-bottom: none !important;
+      background: #fff !important;
+    }
+    .sum-row.grand {
+      padding: 8px 0 4px 0 !important;
+      font-size: 1.15rem !important; font-weight: 700 !important;
+      border-top: 1px solid #000 !important;
+      background: #fff !important; color: #000 !important;
+      font-family: 'Playfair Display', serif !important;
+    }
+    .sum-row.grand .lbl, .sum-row.grand .amt { color: #000 !important; }
+    .sum-row.grand .amt { font-size: 1.2rem !important; font-weight: 700 !important; }
+    #amountWords {
+      font-size: 0.85rem !important; text-align: left !important;
+      font-style: normal !important; color: #000 !important;
+      margin-top: 2px !important; font-weight: 600 !important;
+    }
+    #amountWords::before { content: "Total (in words): "; font-weight: 700; }
+
+    /* ── PAYMENT: just notes/extra info, no QR ── */
+    .payment-section {
+      padding: 6px 0 !important; gap: 8px !important;
+      border-top: none !important;
+      display: block !important;
+    }
+    .payment-section h3 { display: none !important; }
+    .payment-grid { display: none !important; }   /* duplicates bank info already shown above */
+
+    /* ── SIGNATURE: both client (left) + owner (right), centered captions ── */
+    .sig-section {
+      padding: 24px 0 8px 0 !important;
+      gap: 60px !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      border-top: none !important;
+    }
+    .sig-block { text-align: center !important; }
+    .sig-line { height: 32px !important; border-bottom: 1px solid #000 !important; margin-bottom: 4px !important; }
+    .sig-name-inp { font-size: 0.9rem !important; font-weight: 600 !important; text-align: center !important; }
+    .sig-caption { font-size: 0.78rem !important; font-weight: 500 !important; letter-spacing: 0 !important; text-transform: none !important; color: #333 !important; }
+
+    /* ── FOOTER: simple single line ── */
+    .bill-footer {
+      display: block !important;
+      padding: 8px 0 0 0 !important;
+      border-top: 1px solid #000 !important;
+      background: #fff !important;
+      color: #333 !important;
+      text-align: center !important;
+      font-size: 0.78rem !important;
+      letter-spacing: 0 !important;
+    }
+    .bill-footer span { color: #000 !important; font-weight: 600 !important; }
+
+    /* No page breaks */
+    #bill, .bill-header, .info-section, .items-section,
+    .totals-section, .sig-section, .bill-footer {
       page-break-inside: avoid !important; break-inside: avoid !important;
     }
     table.items-tbl thead { display: table-header-group; }
@@ -959,11 +1089,9 @@ function toggleTerms() {
 }
 
 // ── PDF ──
-// Validates required fields, then auto-scales the bill to fill ~1 A4 page.
-// Scales DOWN if too tall, scales UP (up to 1.6×) if too short — so the
-// printed output is always large enough to read without zooming.
+// Validates required fields, hides empty optional rows, then opens print dialog.
+// Print CSS is fixed-size (no transform scaling) so layout stays clean and centered.
 function savePDF() {
-  // Required fields for a govt-served bill
   const required = [
     { id: 'billNo',      label: 'Bill Number' },
     { id: 'billDate',    label: 'Bill Date' },
@@ -985,29 +1113,27 @@ function savePDF() {
   const billNo = document.getElementById('billNo').value.trim();
   document.title = `HariOm_Caterers_${billNo}`;
 
-  const bill = document.getElementById('bill');
-  // A4 usable area at 96dpi with 6mm/8mm margins ≈ 760w × 1075h px
-  const A4_USABLE_H = 1075;
-  const A4_USABLE_W = 760;
-
-  // Measure at A4 width
-  const prevWidth = bill.style.width;
-  bill.style.width = A4_USABLE_W + 'px';
-  const naturalHeight = bill.scrollHeight;
-  bill.style.width = prevWidth;
-
-  let scale = 1;
-  if (naturalHeight > A4_USABLE_H) {
-    // Too tall → shrink to fit
-    scale = Math.max(0.6, A4_USABLE_H / naturalHeight);
-  } else if (naturalHeight < A4_USABLE_H * 0.95) {
-    // Too short → magnify to fill page (cap at 1.6× so text doesn't get huge)
-    scale = Math.min(1.6, A4_USABLE_H / naturalHeight);
-  }
-  bill.style.transform = scale !== 1 ? `scale(${scale})` : '';
+  // Hide rows whose value is blank, so the printed metadata list is tight.
+  const markedHidden = [];
+  // Reg-band items: hide if input is empty
+  document.querySelectorAll('.reg-band .reg-item').forEach(item => {
+    const input = item.querySelector('.reg-val');
+    if (input && !input.value.trim()) {
+      item.classList.add('print-hide');
+      markedHidden.push(item);
+    }
+  });
+  // Bill-strip rows: hide eventDate and persons if empty (billNo/billDate already required)
+  document.querySelectorAll('.bill-strip .field-row').forEach(row => {
+    const input = row.querySelector('.field-input');
+    if (input && !input.value.trim()) {
+      row.classList.add('print-hide');
+      markedHidden.push(row);
+    }
+  });
 
   const cleanup = () => {
-    bill.style.transform = '';
+    markedHidden.forEach(el => el.classList.remove('print-hide'));
     window.removeEventListener('afterprint', cleanup);
   };
   window.addEventListener('afterprint', cleanup);
