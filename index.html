@@ -205,31 +205,21 @@
   /* QR */
   .qr-zone { display:flex; flex-direction:column; align-items:center; gap:8px; }
   .qr-box {
-    width:120px; height:120px; border:2px dashed var(--gold);
+    width:140px; height:140px; border:1.5px solid var(--gold);
     border-radius:10px; display:flex; align-items:center; justify-content:center;
-    cursor:pointer; overflow:hidden; background:var(--white);
+    overflow:hidden; background:var(--white); padding:4px;
   }
-  .qr-box img { width:100%; height:100%; object-fit:cover; }
-  .qr-placeholder { display:flex; flex-direction:column; align-items:center; gap:4px; color:var(--gold); }
-  .qr-placeholder svg { width:40px; height:40px; }
-  .qr-placeholder span { font-size:0.62rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
+  .qr-box img { width:100%; height:100%; object-fit:contain; display:block; }
   .qr-label { font-size:0.72rem; color:var(--ink-light); text-align:center; font-weight:500; }
-  #qrInput,#logoInput { display:none; }
-
-  /* QR pre-loaded notice */
-  .qr-loaded-notice { font-size:0.68rem; color:var(--saffron); font-weight:600; text-align:center; margin-top:3px; }
 
   /* LOGO BOX */
   .logo-box {
     width:80px; height:80px; background:rgba(255,255,255,0.08);
     border:1.5px solid rgba(224,185,74,0.4); border-radius:8px;
     display:flex; align-items:center; justify-content:center;
-    cursor:pointer; overflow:hidden; flex-shrink:0;
+    overflow:hidden; flex-shrink:0; padding:4px;
   }
-  .logo-box img { width:100%; height:100%; object-fit:contain; }
-  .logo-placeholder { display:flex; flex-direction:column; align-items:center; gap:4px; color:rgba(224,185,74,0.6); font-size:0.6rem; text-align:center; padding:8px; }
-  .logo-placeholder svg { width:28px; height:28px; }
-
+  .logo-box img { width:100%; height:100%; object-fit:contain; display:block; }
   /* TERMS */
   .terms-section { padding:22px 44px; border-top:1px solid var(--border); }
   .terms-section h3 { font-size:0.65rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--saffron); margin-bottom:12px; display:flex; align-items:center; gap:10px; }
@@ -259,6 +249,105 @@
   /* NOTES */
   .notes-area { width:100%; border:1px solid var(--border); border-radius:6px; padding:10px 12px; font-family:'DM Sans',sans-serif; font-size:0.82rem; color:var(--ink-mid); resize:vertical; outline:none; min-height:60px; background:var(--cream); margin-top:8px; }
   .notes-area:focus { border-color:var(--saffron); }
+
+  /* ============ MOBILE / TABLET RESPONSIVE ============ */
+  @media (max-width: 860px) {
+    /* Toolbar */
+    #toolbar { padding: 10px 14px; flex-wrap: wrap; gap: 10px; }
+    #toolbar h1 { font-size: 0.95rem; flex: 1 1 100%; text-align: center; }
+    .actions { width: 100%; justify-content: center; gap: 8px; }
+    .btn { padding: 8px 14px; font-size: 0.78rem; flex: 1; max-width: 180px; }
+
+    /* Page wrap */
+    #page-wrap { margin: 14px auto; padding: 0 8px 32px; }
+    #bill { border-radius: 8px; }
+
+    /* Header — stack logo / company / invoice vertically */
+    .bill-header {
+      grid-template-columns: 1fr;
+      padding: 20px 18px 18px;
+      gap: 14px; text-align: center;
+    }
+    .logo-box { margin: 0 auto; width: 70px; height: 70px; }
+    .company-name-marathi { font-size: 1.25rem; text-align: center; }
+    .company-name-eng { font-size: 0.82rem; text-align: center; }
+    .company-sub { text-align: center; font-size: 0.68rem; }
+    .header-right { text-align: center; }
+    .invoice-label { font-size: 1.8rem; }
+    .om-symbol { font-size: 2.2rem; text-align: center; }
+
+    /* Reg band — 2 columns */
+    .reg-band { grid-template-columns: repeat(2, 1fr); }
+    .reg-item {
+      padding: 8px 12px;
+      border-right: 1px solid rgba(255,255,255,0.08) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .reg-item:nth-child(2n) { border-right: none !important; }
+    .reg-label { font-size: 0.55rem; }
+    .reg-val { font-size: 0.74rem; }
+
+    /* Info section — single column */
+    .info-section { grid-template-columns: 1fr; padding: 18px 16px; gap: 18px; }
+
+    /* Bill strip — 2 columns */
+    .bill-strip { grid-template-columns: repeat(2, 1fr); padding: 14px 16px; gap: 14px; }
+
+    /* Items — horizontal scroll for table */
+    .items-section { padding: 18px 12px; }
+    .items-section > h3 { padding-left: 4px; }
+    .items-tbl-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table.items-tbl { min-width: 640px; }
+    table.items-tbl thead th,
+    table.items-tbl tbody td { padding: 8px 8px; font-size: 0.78rem; }
+    .item-inp { font-size: 0.82rem; }
+    .add-row-btn { margin-left: 4px; }
+
+    /* Totals — stack */
+    .totals-section {
+      grid-template-columns: 1fr;
+      padding: 0 16px 22px; gap: 20px;
+    }
+    .summary-box { width: 100%; }
+    .charge-row { flex-wrap: wrap; }
+    .charge-row .ch-val { width: 80px; }
+
+    /* Payment — stack, center QR */
+    .payment-section {
+      grid-template-columns: 1fr;
+      padding: 20px 16px; gap: 22px;
+    }
+    .payment-grid { grid-template-columns: 1fr; gap: 10px; }
+    .qr-zone { align-self: center; }
+
+    /* Terms */
+    .terms-section { padding: 18px 16px; }
+    .terms-section h3 { flex-wrap: wrap; }
+
+    /* Signature — stack */
+    .sig-section { grid-template-columns: 1fr; padding: 16px 16px 24px; gap: 28px; }
+
+    /* Footer */
+    .bill-footer { padding: 12px 16px; font-size: 0.66rem; }
+
+    /* Amount in words */
+    #amountWords { text-align: left; }
+  }
+
+  /* Extra-small phones */
+  @media (max-width: 420px) {
+    #toolbar h1 { font-size: 0.85rem; }
+    .btn { font-size: 0.72rem; padding: 7px 10px; }
+    #page-wrap { padding: 0 6px 24px; margin: 10px auto; }
+    .bill-header { padding: 16px 12px 14px; }
+    .company-name-marathi { font-size: 1.1rem; }
+    .invoice-label { font-size: 1.5rem; }
+    .reg-band { grid-template-columns: 1fr; }
+    .reg-item { border-right: none !important; }
+    .info-section, .bill-strip, .payment-section, .terms-section, .sig-section { padding-left: 12px; padding-right: 12px; }
+    .totals-section { padding-left: 12px; padding-right: 12px; }
+    .items-section { padding: 16px 8px; }
+  }
 
   /* PRINT */
   @media print {
@@ -291,18 +380,9 @@
 
   <!-- HEADER -->
   <div class="bill-header">
-    <div class="logo-box" onclick="document.getElementById('logoInput').click()" title="Upload Logo">
-      <div class="logo-placeholder" id="logoPlaceholder">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="3" width="18" height="18" rx="2"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <path d="M21 15l-5-5L5 21"/>
-        </svg>
-        <span>Upload<br>Logo</span>
-      </div>
-      <img id="logoImg" src="" alt="" style="display:none;" />
+    <div class="logo-box">
+      <img id="logoImg" src="image.png" alt="Hari Om Caterers Logo" />
     </div>
-    <input type="file" id="logoInput" accept="image/*" onchange="loadLogo(event)" />
 
     <div class="company-block">
       <div class="shri-line">॥ श्री ॥</div>
@@ -438,6 +518,7 @@
   <!-- LINE ITEMS -->
   <div class="items-section">
     <h3>Items & Services</h3>
+    <div class="items-tbl-wrap">
     <table class="items-tbl" id="itemsTable">
       <thead>
         <tr>
@@ -453,6 +534,7 @@
       </thead>
       <tbody id="itemsBody"></tbody>
     </table>
+    </div>
     <button class="add-row-btn" onclick="addItemRow()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Add Item
@@ -533,23 +615,10 @@
     </div>
 
     <div class="qr-zone">
-      <div class="qr-box" onclick="document.getElementById('qrInput').click()" title="Upload payment QR code">
-        <div class="qr-placeholder" id="qrPlaceholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="3" height="3"/>
-            <rect x="18" y="14" width="3" height="3"/>
-            <rect x="14" y="18" width="7" height="3"/>
-          </svg>
-          <span>Upload QR</span>
-        </div>
-        <img id="qrImg" src="" alt="Payment QR" style="display:none;" />
+      <div class="qr-box">
+        <img id="qrImg" src="qr.png" alt="Payment QR" />
       </div>
-      <input type="file" id="qrInput" accept="image/*" onchange="loadQR(event)" />
       <div class="qr-label">Scan to Pay (UPI / BHIM)</div>
-      <div class="qr-loaded-notice" id="qrNote" style="display:none;">✓ QR Uploaded</div>
     </div>
   </div>
 
@@ -739,30 +808,6 @@ function toWords(n) {
 function toggleTerms() {
   document.getElementById('termsBox').style.display =
     document.getElementById('showTerms').checked ? 'block' : 'none';
-}
-
-// ── IMAGE UPLOADS ──
-function loadLogo(e) {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    document.getElementById('logoImg').src = ev.target.result;
-    document.getElementById('logoImg').style.display = 'block';
-    document.getElementById('logoPlaceholder').style.display = 'none';
-  };
-  r.readAsDataURL(f);
-}
-
-function loadQR(e) {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    document.getElementById('qrImg').src = ev.target.result;
-    document.getElementById('qrImg').style.display = 'block';
-    document.getElementById('qrPlaceholder').style.display = 'none';
-    document.getElementById('qrNote').style.display = 'block';
-  };
-  r.readAsDataURL(f);
 }
 
 // ── PDF ──
