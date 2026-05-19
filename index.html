@@ -371,7 +371,6 @@
     .terms-section,
     .om-symbol, .invoice-badge, .divider, .shri-line, #cmpSub,
     .company-block,
-    .qr-zone,
     .bill-header::after { display:none !important; }
 
     /* Hide print-only-noise rows the JS marks */
@@ -426,30 +425,33 @@
       line-height: 1 !important;
     }
 
-    /* ── METADATA: bill-strip + reg-band as two stacked key:value columns ── */
+    /* ── METADATA: 2-column key:value grid to save vertical space ── */
     .bill-strip, .reg-band {
-      display: block !important;
-      width: 60% !important;
-      padding: 0 !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      column-gap: 28px !important;
+      row-gap: 1px !important;
+      width: auto !important;
+      padding: 0 130px 0 0 !important;   /* leave room for absolute logo */
       border: none !important;
       background: #fff !important;
     }
     .bill-strip { margin-top: 4px !important; }
-    .reg-band   { margin-top: 0 !important; padding-right: 130px !important; }
+    .reg-band   { margin-top: 0 !important; }
 
     .bill-strip > .field-row,
     .reg-band  > .reg-item {
       display: grid !important;
-      grid-template-columns: 130px 1fr !important;
-      gap: 10px !important;
+      grid-template-columns: 115px 1fr !important;
+      gap: 8px !important;
       align-items: baseline !important;
-      padding: 1.5px 0 !important;
+      padding: 1px 0 !important;
       margin: 0 !important;
       border: none !important;
     }
     .bill-strip > .field-row > label,
     .reg-band  > .reg-item  > .reg-label {
-      font-size: 0.82rem !important;
+      font-size: 0.78rem !important;
       font-weight: 500 !important;
       color: #555 !important;
       letter-spacing: 0 !important;
@@ -460,7 +462,7 @@
     }
     .bill-strip > .field-row > .field-input,
     .reg-band  > .reg-item  > .reg-val {
-      font-size: 0.92rem !important;
+      font-size: 0.88rem !important;
       font-weight: 700 !important;
       color: #000 !important;
       border: none !important;
@@ -595,18 +597,36 @@
     }
     #amountWords::before { content: "Total (in words): "; font-weight: 700; }
 
-    /* ── PAYMENT: just notes/extra info, no QR ── */
+    /* ── PAYMENT: show QR (right-aligned), hide duplicate bank list ── */
     .payment-section {
-      padding: 6px 0 !important; gap: 8px !important;
+      padding: 8px 0 0 0 !important; gap: 8px !important;
       border-top: none !important;
-      display: block !important;
+      display: flex !important;
+      justify-content: flex-end !important;
     }
     .payment-section h3 { display: none !important; }
     .payment-grid { display: none !important; }   /* duplicates bank info already shown above */
+    .qr-zone {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 3px !important;
+      margin: 0 !important;
+    }
+    .qr-box {
+      width: 95px !important; height: 95px !important;
+      border: 1px solid #000 !important; border-radius: 4px !important;
+      padding: 2px !important; background: #fff !important;
+    }
+    .qr-box img { width: 100% !important; height: 100% !important; object-fit: contain !important; }
+    .qr-label {
+      font-size: 0.72rem !important; color: #000 !important;
+      font-weight: 600 !important;
+    }
 
     /* ── SIGNATURE: both client (left) + owner (right), centered captions ── */
     .sig-section {
-      padding: 24px 0 8px 0 !important;
+      padding: 16px 0 8px 0 !important;
       gap: 60px !important;
       display: grid !important;
       grid-template-columns: 1fr 1fr !important;
