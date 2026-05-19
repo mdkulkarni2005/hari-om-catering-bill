@@ -352,9 +352,9 @@
   /* PRINT — single A4 page, black & white, government-bill style.
      Strips color (B&W printer), removes decoration, keeps required fields only. */
   @media print {
-    @page { size: A4; margin: 5mm 6mm; }
+    @page { size: A4; margin: 6mm 8mm; }
     html, body { background:white !important; color:#000 !important; }
-    body { font-size: 9px; }
+    body { font-size: 14px; }
     #toolbar { display:none !important; }
     #page-wrap { margin:0!important; padding:0!important; max-width:100%!important; }
     #bill {
@@ -374,9 +374,6 @@
     #cmpSub,
     .qr-zone { display:none !important; }
     .bill-header::after { display:none !important; }
-
-    /* Hide the second signature block — only Authorised Signatory needed */
-    .sig-section > .sig-block:first-child { display:none !important; }
 
     /* FORCE B&W everywhere */
     * {
@@ -400,107 +397,108 @@
       -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact;
     }
 
-    /* Header: tight, B&W, logo + company on left, BILL label on right */
+    /* Header */
     .bill-header {
-      padding: 6px 10px !important; gap: 8px !important;
+      padding: 10px 14px !important; gap: 12px !important;
       border-bottom: 1.5px solid #000 !important;
       grid-template-columns: auto 1fr auto !important;
     }
-    .logo-box { width: 42px !important; height: 42px !important; border: 1px solid #000 !important; padding: 1px !important; }
-    .company-name-marathi { font-size: 0.95rem !important; font-weight: 700 !important; }
-    .company-name-eng { font-size: 0.66rem !important; font-weight: 600 !important; }
+    .logo-box { width: 64px !important; height: 64px !important; border: 1px solid #000 !important; padding: 2px !important; }
+    .company-name-marathi { font-size: 1.35rem !important; font-weight: 700 !important; }
+    .company-name-eng { font-size: 0.95rem !important; font-weight: 600 !important; }
     .bill-header input[id="cmpPhone"],
     .bill-header input[id="cmpEmail"],
     .bill-header input[id="cmpAddr"] {
-      font-size: 0.58rem !important; padding: 0 !important;
+      font-size: 0.82rem !important; padding: 0 !important;
       border-bottom: none !important;
     }
-    .bill-header > .company-block > div[style*="margin-top:8px"] { margin-top: 2px !important; gap: 8px !important; }
-    .invoice-label { font-size: 1.05rem !important; font-weight: 700 !important; letter-spacing: 0.06em !important; }
+    .bill-header > .company-block > div[style*="margin-top:8px"] { margin-top: 4px !important; gap: 10px !important; }
+    .invoice-label { font-size: 1.6rem !important; font-weight: 700 !important; letter-spacing: 0.06em !important; }
 
-    /* Reg band: compact 4-col grid with thin black borders */
+    /* Reg band */
     .reg-band {
       grid-template-columns: repeat(4, 1fr) !important;
       border-bottom: 1px solid #000 !important;
     }
     .reg-item {
-      padding: 2px 6px !important;
+      padding: 4px 8px !important;
       border-right: 1px solid #000 !important;
       border-top: 1px solid #000 !important;
     }
     .reg-item:nth-child(4n) { border-right: none !important; }
     .reg-item:nth-child(-n+4) { border-top: none !important; }
-    .reg-label { font-size: 0.44rem !important; font-weight: 700 !important; letter-spacing: 0.04em !important; }
-    .reg-val { font-size: 0.58rem !important; font-weight: 600 !important; }
+    .reg-label { font-size: 0.7rem !important; font-weight: 700 !important; letter-spacing: 0.04em !important; }
+    .reg-val { font-size: 0.85rem !important; font-weight: 600 !important; }
 
     /* Bill From / Bill To */
-    .info-section { padding: 5px 10px !important; gap: 10px !important; }
+    .info-section { padding: 8px 14px !important; gap: 14px !important; }
     .info-block h3,
     .items-section > h3,
     .extra-charges h3,
     .payment-section h3 {
-      font-size: 0.52rem !important; margin-bottom: 2px !important;
-      padding-bottom: 1px !important; border-bottom: 1px solid #000 !important;
+      font-size: 0.8rem !important; margin-bottom: 4px !important;
+      padding-bottom: 2px !important; border-bottom: 1px solid #000 !important;
       font-weight: 700 !important; letter-spacing: 0.05em !important;
     }
-    .field-row { margin-bottom: 1px !important; }
-    .field-row label { font-size: 0.5rem !important; margin-bottom: 0 !important; font-weight: 600 !important; }
-    .field-input { font-size: 0.62rem !important; padding: 0 !important; border-bottom: 1px dotted #555 !important; }
+    .field-row { margin-bottom: 3px !important; }
+    .field-row label { font-size: 0.72rem !important; margin-bottom: 0 !important; font-weight: 600 !important; }
+    .field-input { font-size: 0.9rem !important; padding: 1px 0 !important; border-bottom: 1px dotted #555 !important; }
 
     .bill-strip {
-      padding: 3px 10px !important; gap: 8px !important;
+      padding: 6px 14px !important; gap: 10px !important;
       border-top: 1px solid #000 !important; border-bottom: 1px solid #000 !important;
     }
 
     /* Items table */
-    .items-section { padding: 4px 10px !important; }
+    .items-section { padding: 6px 14px !important; }
     .items-tbl-wrap { overflow: visible !important; }
     table.items-tbl { min-width: 0 !important; border: 1px solid #000 !important; }
     table.items-tbl thead tr { border-bottom: 1.5px solid #000 !important; }
     table.items-tbl thead th {
-      padding: 2px 4px !important; font-size: 0.5rem !important;
+      padding: 4px 6px !important; font-size: 0.78rem !important;
       font-weight: 700 !important; border-right: 1px solid #000 !important;
     }
     table.items-tbl thead th:last-child { border-right: none !important; }
     table.items-tbl tbody tr { border-bottom: 1px solid #000 !important; }
     table.items-tbl tbody td {
-      padding: 1px 4px !important; border-right: 1px solid #000 !important;
+      padding: 3px 6px !important; border-right: 1px solid #000 !important;
     }
     table.items-tbl tbody td:last-child { border-right: none !important; }
-    .item-inp { font-size: 0.62rem !important; }
-    .item-inp.desc-sub { font-size: 0.54rem !important; margin-top: 0 !important; }
-    .item-amt { font-size: 0.62rem !important; font-weight: 600 !important; }
+    .item-inp { font-size: 0.9rem !important; }
+    .item-inp.desc-sub { font-size: 0.78rem !important; margin-top: 1px !important; }
+    .item-amt { font-size: 0.9rem !important; font-weight: 600 !important; }
 
     /* Totals + extras side-by-side */
-    .totals-section { padding: 4px 10px !important; gap: 10px !important; grid-template-columns: 1fr 240px !important; }
-    .charge-row { margin-bottom: 1px !important; }
-    .charge-row input { font-size: 0.6rem !important; padding: 0 !important; border-bottom: 1px dotted #555 !important; }
+    .totals-section { padding: 6px 14px !important; gap: 14px !important; grid-template-columns: 1fr 280px !important; }
+    .charge-row { margin-bottom: 2px !important; }
+    .charge-row input { font-size: 0.85rem !important; padding: 1px 0 !important; border-bottom: 1px dotted #555 !important; }
     .summary-box { border: 1.5px solid #000 !important; border-radius: 0 !important; }
-    .sum-row { padding: 1px 8px !important; font-size: 0.62rem !important; border-bottom: 1px solid #000 !important; }
+    .sum-row { padding: 3px 10px !important; font-size: 0.88rem !important; border-bottom: 1px solid #000 !important; }
     .sum-row.grand {
-      padding: 3px 8px !important; font-size: 0.78rem !important;
+      padding: 6px 10px !important; font-size: 1.05rem !important;
       font-weight: 700 !important; border-top: 1.5px solid #000 !important;
     }
-    .sum-row.grand .amt { font-size: 0.85rem !important; font-weight: 700 !important; }
-    #amountWords { font-size: 0.55rem !important; margin-top: 2px !important; }
-    .notes-area { min-height: 0 !important; padding: 2px 6px !important; font-size: 0.56rem !important; margin-top: 2px !important; border: 1px solid #000 !important; }
+    .sum-row.grand .amt { font-size: 1.15rem !important; font-weight: 700 !important; }
+    #amountWords { font-size: 0.78rem !important; margin-top: 4px !important; font-style: italic !important; }
+    .notes-area { min-height: 0 !important; padding: 4px 8px !important; font-size: 0.8rem !important; margin-top: 3px !important; border: 1px solid #000 !important; }
 
-    /* Payment + signature on one row at bottom */
+    /* Payment */
     .payment-section {
-      padding: 4px 10px !important; gap: 10px !important;
+      padding: 6px 14px !important; gap: 14px !important;
       border-top: 1px solid #000 !important;
       grid-template-columns: 1fr !important;
     }
-    .payment-grid { gap: 1px 12px !important; }
+    .payment-grid { gap: 3px 16px !important; }
 
+    /* Signature — keep BOTH client + owner */
     .sig-section {
-      padding: 4px 10px 6px !important; gap: 16px !important;
+      padding: 14px 14px 10px !important; gap: 30px !important;
       grid-template-columns: 1fr 1fr !important;
       border-top: 1px solid #000 !important;
     }
-    .sig-line { height: 18px !important; border-bottom: 1px solid #000 !important; }
-    .sig-name-inp { font-size: 0.56rem !important; }
-    .sig-caption { font-size: 0.5rem !important; font-weight: 600 !important; }
+    .sig-line { height: 36px !important; border-bottom: 1px solid #000 !important; }
+    .sig-name-inp { font-size: 0.82rem !important; font-weight: 600 !important; }
+    .sig-caption { font-size: 0.7rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; }
 
     /* Keep everything together — no page breaks */
     #bill, .bill-header, .reg-band, .info-section, .bill-strip,
@@ -795,13 +793,13 @@
   <div class="sig-section">
     <div class="sig-block">
       <div class="sig-line"></div>
-      <input class="sig-name-inp" placeholder="Client / Customer Signature" />
-      <div class="sig-caption">Authorised by Client</div>
+      <input class="sig-name-inp" id="clientSig" placeholder="Name of Client" />
+      <div class="sig-caption">Client Signature</div>
     </div>
     <div class="sig-block">
       <div class="sig-line"></div>
       <input class="sig-name-inp" id="ownerSig" value="Vaishali D. Kulkarni" />
-      <div class="sig-caption">For Hari Om Caterers And Tiffin Service</div>
+      <div class="sig-caption">Owner Signature — Hari Om Caterers</div>
     </div>
   </div>
 
@@ -961,29 +959,57 @@ function toggleTerms() {
 }
 
 // ── PDF ──
-// A4 = 297mm tall. With 5mm top + 5mm bottom margin we have 287mm usable.
-// At 96dpi, 287mm ≈ 1085px. We measure the rendered bill and scale down
-// uniformly if it would overflow one page, so output is always 1 page.
+// Validates required fields, then auto-scales the bill to fill ~1 A4 page.
+// Scales DOWN if too tall, scales UP (up to 1.6×) if too short — so the
+// printed output is always large enough to read without zooming.
 function savePDF() {
-  const billNo  = document.getElementById('billNo').value  || 'Bill';
+  // Required fields for a govt-served bill
+  const required = [
+    { id: 'billNo',      label: 'Bill Number' },
+    { id: 'billDate',    label: 'Bill Date' },
+    { id: 'clientName',  label: 'Client Name' },
+    { id: 'clientAddr',  label: 'Client Address' },
+  ];
+  const missing = required.filter(f => {
+    const el = document.getElementById(f.id);
+    return !el || !el.value.trim();
+  });
+  if (missing.length) {
+    alert('Please fill the following required fields before saving the PDF:\n\n• ' +
+          missing.map(m => m.label).join('\n• '));
+    const first = document.getElementById(missing[0].id);
+    if (first) first.focus();
+    return;
+  }
+
+  const billNo = document.getElementById('billNo').value.trim();
   document.title = `HariOm_Caterers_${billNo}`;
 
   const bill = document.getElementById('bill');
-  const A4_USABLE_PX = 1085; // ~287mm at 96dpi
-  // Temporarily apply a print-like width to measure realistic height
+  // A4 usable area at 96dpi with 6mm/8mm margins ≈ 760w × 1075h px
+  const A4_USABLE_H = 1075;
+  const A4_USABLE_W = 760;
+
+  // Measure at A4 width
   const prevWidth = bill.style.width;
-  bill.style.width = '780px'; // A4 ≈ 794px wide at 96dpi minus margins
+  bill.style.width = A4_USABLE_W + 'px';
   const naturalHeight = bill.scrollHeight;
   bill.style.width = prevWidth;
 
   let scale = 1;
-  if (naturalHeight > A4_USABLE_PX) {
-    scale = Math.max(0.55, A4_USABLE_PX / naturalHeight);
+  if (naturalHeight > A4_USABLE_H) {
+    // Too tall → shrink to fit
+    scale = Math.max(0.6, A4_USABLE_H / naturalHeight);
+  } else if (naturalHeight < A4_USABLE_H * 0.95) {
+    // Too short → magnify to fill page (cap at 1.6× so text doesn't get huge)
+    scale = Math.min(1.6, A4_USABLE_H / naturalHeight);
   }
-  bill.style.transform = scale < 1 ? `scale(${scale})` : '';
+  bill.style.transform = scale !== 1 ? `scale(${scale})` : '';
 
-  // Restore after print dialog closes
-  const cleanup = () => { bill.style.transform = ''; window.removeEventListener('afterprint', cleanup); };
+  const cleanup = () => {
+    bill.style.transform = '';
+    window.removeEventListener('afterprint', cleanup);
+  };
   window.addEventListener('afterprint', cleanup);
 
   window.print();
