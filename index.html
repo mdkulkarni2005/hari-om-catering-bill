@@ -657,6 +657,39 @@
     }
     table.items-tbl thead { display: table-header-group; }
     table.items-tbl tr { page-break-inside: avoid; break-inside: avoid; }
+
+    /* ── FIX: empty optional fields must NOT print their placeholder text
+            (was printing a fake "client@email.com" on the bill) ── */
+    input::placeholder,
+    textarea::placeholder {
+      color: transparent !important;
+      opacity: 0 !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+    /* ── FIX: native date-picker icon crops the date & widens the column ── */
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-clear-button {
+      display: none !important;
+      -webkit-appearance: none !important;
+    }
+    input[type="date"] {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      min-width: 0 !important;
+    }
+
+    /* ── FIX: lock the items table to the printable page width so nothing
+            (Amount column / QR) gets cropped off the right edge ── */
+    table.items-tbl { table-layout: fixed !important; }
+    table.items-tbl td input,
+    table.items-tbl .item-inp {
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+    table.items-tbl thead th:nth-child(3) { width: 92px !important; }  /* Date */
   }
   @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
   .item-row { animation:fadeUp 0.2s ease; }
